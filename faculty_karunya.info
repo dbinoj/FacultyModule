@@ -1,0 +1,5 @@
+; $Id$
+name = Faculty at Karunya
+description = Module to customize OpenScholar for Karunya's requirements
+core = 6.x
+package = Custom Modules for Karunya University

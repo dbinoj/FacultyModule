@@ -1,0 +1,41 @@
+<?php
+/**
+ * @file
+ * Lets system admins customize openscholar into a Karunya Specific installation.
+ *
+ * Removes Name, Title fields from site_info widget
+ * so that users cannnot edit values pulled from LDAP.
+ * Coding Standard of 80chars/line not followed in this module! Call me lazy!!
+ */
+
+/**
+ * Implements hook_form_alter().
+ */
+ function faculty_karunya_form_alter(&$form, &$form_state, $form_id) {
+  switch ($form_id) {
+   case 'vsite_node_form':
+     //Customize the "Site Information" widget form
+     if ($form['#id'] == 'node-form' && isset($form['title']) && isset($form['title']['#title']) && $form['title']['#title'] == 'Site title' && isset($form['og_description']) && isset($form['og_description']['#title']) && $form['og_description']['#title'] == 'Description') {
+       $form['og_description']['#access'] = FALSE;
+       $form['title']['#access'] = FALSE;
+       $form['field_vsite_address'][0]['#description'] = 'Address to your working space where students and other faculty can find you regarding academic activities.';
+     }	 
+   break;
+  }
+ }
+
+/**
+ * Override Front Page Image
+ * NEEDS REVIEW. TEMPORARILY HARDCODE $block['content'] MANUALLY IN 'openscholar_front.blocks.inc'
+ *
+ 
+ function _karunya_front_block(){
+  global $base_url;
+  $block = array();
+  $block['subject'] = t('');
+  $block['content'] =     '<img src="'.$base_url.drupal_get_path('module', 'faculty_karunya').'/images/faculty.karunya.png">';
+  return $block;
+ }
+ override_function('_openscholar_front_block_video_info', '', 'return _karunya_front_block();');
+ 
+ */
